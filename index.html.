@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Job Tracker</title>
+</head>
+<body>
+
+<h2>Job Application Tracker</h2>
+
+<input type="text" id="job" placeholder="Job Title">
+<input type="text" id="company" placeholder="Company Name">
+<button onclick="addJob()">Add</button>
+
+<h3>Applications:</h3>
+<ul id="list"></ul>
+
+<script>
+let applications = [];
+
+function addJob() {
+    let job = document.getElementById("job").value;
+    let company = document.getElementById("company").value;
+
+    let entry = job + " at " + company;
+
+    applications.push(entry);
+
+    let li = document.createElement("li");
+    li.textContent = entry;
+
+    document.getElementById("list").appendChild(li);
+}
+</script>
+
+</body>
+</html>
