@@ -2,34 +2,114 @@
 <html>
 <head>
     <title>Job Tracker</title>
+
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f6f8;
+            margin: 0;
+            padding: 0;
+        }
+
+        .container {
+            max-width: 500px;
+            margin: 50px auto;
+            background: white;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+        }
+
+        h2 {
+            text-align: center;
+            color: #333;
+        }
+
+        input {
+            width: 100%;
+            padding: 10px;
+            margin: 8px 0;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+        }
+
+        button {
+            width: 100%;
+            padding: 10px;
+            background-color: #007bff;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 16px;
+        }
+
+        button:hover {
+            background-color: #0056b3;
+        }
+
+        ul {
+            list-style: none;
+            padding: 0;
+        }
+
+        li {
+            background: #f1f1f1;
+            margin-top: 10px;
+            padding: 10px;
+            border-radius: 5px;
+        }
+    </style>
 </head>
+
 <body>
 
-<h2>Job Application Tracker</h2>
+<div class="container">
+    <h2>Job Application Tracker</h2>
 
-<input type="text" id="job" placeholder="Job Title">
-<input type="text" id="company" placeholder="Company Name">
-<button onclick="addJob()">Add</button>
+    <input type="text" id="job" placeholder="Job Title">
+    <input type="text" id="company" placeholder="Company Name">
+    <button onclick="addJob()">Add Application</button>
 
-<h3>Applications:</h3>
-<ul id="list"></ul>
+    <h3>Applications</h3>
+    <ul id="list"></ul>
+</div>
 
 <script>
-let applications = [];
+let applications = JSON.parse(localStorage.getItem("jobs")) || [];
+
+function displayJobs() {
+    let list = document.getElementById("list");
+    list.innerHTML = "";
+
+    applications.forEach(app => {
+        let li = document.createElement("li");
+        li.textContent = app;
+        list.appendChild(li);
+    });
+}
 
 function addJob() {
     let job = document.getElementById("job").value;
     let company = document.getElementById("company").value;
 
+    if (job === "" || company === "") {
+        alert("Please fill in all fields");
+        return;
+    }
+
     let entry = job + " at " + company;
 
     applications.push(entry);
+    localStorage.setItem("jobs", JSON.stringify(applications));
 
-    let li = document.createElement("li");
-    li.textContent = entry;
+    displayJobs();
 
-    document.getElementById("list").appendChild(li);
+    document.getElementById("job").value = "";
+    document.getElementById("company").value = "";
 }
+
+displayJobs();
 </script>
 
 </body>
